@@ -1,6 +1,6 @@
 // Include packages needed for this application
-const { fstat } = require('fs');
-const inquirer = require('requirer');
+const fs = require('fs');
+const inquirer = require('inquirer');
 const { writeFile } = require('fs').promises;
 const generateMarkdown = require('./utils/generateMarkdown');
 const licenses = ['None', 'Apache', 'AGPL', 'MIT','BSD'];
@@ -28,9 +28,10 @@ const questions = [
         message: 'Give some information on how to use this project:'
     },
     {
-        type: 'input',
-        name: 'features',
-        message: 'If this project has a lot of features, list them here:'
+        type: 'list',
+        name: 'license',
+        message: 'Enter the project license:',
+        choices: licenses,
     },
     {
         type: 'input',
@@ -40,16 +41,26 @@ const questions = [
     {
         type: 'input',
         name: 'test',
-        message: 'Enter the test instructions here:'
+        message: 'Enter the test details here:'
+    },
+    {
+        type: 'input',
+        name: 'username',
+        message: 'Enter your github username here:'
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Enter your email address here:'
     },
 ]
 
 // Create a function to write README file
-function writeToFile(fileName, data) {
-    const fileName = "./result/readme.md";
+function writeToFile(data) {
+    // const fileName = 'README.md';
 
-    fs.writeFile(fileName, data, (err) =>
-    err? console.log(err): console.log(fileName +" is created!")
+    fs.writeFile('README.md', data, (err) =>
+    err? console.log(err): console.log("README.md is created!")
     );
 }
 
